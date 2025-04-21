@@ -172,22 +172,23 @@ func (pg *WordGen) Run(ctx context.Context) (<-chan error, error) {
 
 	go func() {
 		<-ctx.Done()
+
 		pg.mu.Lock()
 		pg.running = false
+		pg.genCond.Broadcast()
 		pg.mu.Unlock()
 	}()
 
 	go func() {
+		defer close(errCh)
+
 		err := pg.runGenerator()
 
 		pg.mu.Lock()
 		pg.endTime = time.Now()
-		pg.running = false
 		pg.mu.Unlock()
 
 		errCh <- err
-
-		close(errCh)
 	}()
 
 	return errCh, nil
@@ -233,9 +234,9 @@ func (pg *WordGen) Next() ([]byte, error) {
 
 		// after waking up, check again if we have data
 		if pg.bufR >= pg.bufW {
+			// still no data, generator must have stopped
 			pg.mu.Unlock()
 
-			// still no data, generator must have stopped
 			return nil, io.EOF
 		}
 	}
@@ -324,10 +325,10 @@ func (pg *WordGen) runGenerator() error {
 			return nil
 		}
 
-		if pg.bufW-pg.bufR >= pg.bufSize {
+		if pg.bufW-pg.bufR == pg.bufSize {
 			pg.mu.Unlock()
 
-			time.Sleep(10 * time.Millisecond)
+			time.Sleep(1 * time.Millisecond)
 
 			continue
 		}
@@ -352,10 +353,13 @@ func (pg *WordGen) runGenerator() error {
 
 		// update next state
 		if err := pg.nextState(); err != nil {
+			pg.running = false
+			pg.genCond.Broadcast()
 			pg.mu.Unlock()
+
 			if errors.Is(err, io.EOF) {
 				// EOF means we have generated all passwords
-				// and we can stop the generator
+				// Mark as not running and signal all waiting consumers
 				return nil
 			}
 
@@ -363,8 +367,6 @@ func (pg *WordGen) runGenerator() error {
 		}
 		pg.mu.Unlock()
 	}
-
-	return nil
 }
 
 func (pg *WordGen) nextState() error {

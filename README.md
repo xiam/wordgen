@@ -109,6 +109,41 @@ Batch generated passwords:
 Generated 1026 passwords in 102.893µs
 ```
 
+There's also a example program that generates a batch of passwords with a
+specified character set and length range. See
+[examples/wordgen.go](examples/wordgen.go) for details.
+
+```
+go run github.com/xiam/wordgen/examples/wordgen -min 1 -max 5
+
+Generating passwords with:
+- Character set: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 (62 characters)
+- Length range: 1 to 5 characters
+- Theoretical total: 931.2M passwords
+
+Starting password generation...
+Progress: 63527771 passwords, 63524042.52 passwords/sec
+Progress: 125246501 passwords, 62621035.91 passwords/sec
+Progress: 186696237 passwords, 62229455.63 passwords/sec
+Progress: 248907786 passwords, 62225149.72 passwords/sec
+Progress: 311028514 passwords, 62203700.82 passwords/sec
+Progress: 373033361 passwords, 62171095.64 passwords/sec
+Progress: 434798773 passwords, 62112262.07 passwords/sec
+Progress: 496111864 passwords, 62013427.70 passwords/sec
+Progress: 556820106 passwords, 61868101.44 passwords/sec
+Progress: 614991279 passwords, 61498875.65 passwords/sec
+Progress: 675490253 passwords, 61407468.26 passwords/sec
+Progress: 737673075 passwords, 61471966.81 passwords/sec
+Progress: 799731690 passwords, 61517514.61 passwords/sec
+Progress: 861665466 passwords, 61546577.89 passwords/sec
+Progress: 922954289 passwords, 61529521.24 passwords/sec
+
+Generation complete!
+Total passwords generated: 931151402
+Time taken: 15.132041873s
+Generation speed: 61.5M passwords/sec
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file
