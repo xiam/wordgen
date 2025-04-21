@@ -84,6 +84,31 @@ func main() {
 }
 ```
 
+Output:
+
+```
+Generated passwords:
+1: aaaaaaaa
+2: baaaaaaa
+3: caaaaaaa
+4: daaaaaaa
+5: eaaaaaaa
+6: faaaaaaa
+7: gaaaaaaa
+8: haaaaaaa
+9: iaaaaaaa
+10: jaaaaaaa
+
+Batch generated passwords:
+1: kaaaaaaa
+2: laaaaaaa
+3: maaaaaaa
+4: naaaaaaa
+5: oaaaaaaa
+
+Generated 1026 passwords in 102.893µs
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file
