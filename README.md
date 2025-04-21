@@ -8,6 +8,8 @@ such as generating passwords.
 The library allocates a buffer of a given size and fills it with the generated
 words, so that consumers always have available words to operate with.
 
+## Usage
+
 Here's a simple example demonstrating how to use the `wordgen` package to
 generate passwords:
 
@@ -109,13 +111,22 @@ Batch generated passwords:
 Generated 1026 passwords in 102.893µs
 ```
 
-There's also a example program that generates a batch of passwords with a
+## Example CLI Program
+
+There's another example cli program that generates a batch of passwords with a
 specified character set and length range. See
 [examples/wordgen.go](examples/wordgen.go) for details.
+
+Example usage:
 
 ```
 go run github.com/xiam/wordgen/examples/wordgen -min 1 -max 5
 
+```
+
+Example output:
+
+```
 Generating passwords with:
 - Character set: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 (62 characters)
 - Length range: 1 to 5 characters
